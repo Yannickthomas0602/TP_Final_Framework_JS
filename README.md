@@ -204,3 +204,14 @@ Les vérifications suivantes ont été effectuées manuellement dans l'applicati
 - L'annulation d'une réservation la supprime de la liste et rend l'équipement disponible.
 - Une session reste active après actualisation.
 - La déconnexion supprime la session et renvoie vers `/login`.
+
+## Scénario de parcours utilisateur
+
+1. Un étudiant ouvre l'application et accède à la page de connexion.
+2. Il sélectionne le compte **Alice Martin** pour ouvrir une session.
+3. Depuis le catalogue, il recherche un matériel, applique éventuellement un filtre et ouvre sa fiche détaillée.
+4. Il réserve le matériel s'il est disponible, puis vérifie sa réservation dans **Mes réservations**.
+5. Il peut annuler la réservation depuis cette page. Le matériel redevient alors disponible dans le catalogue.
+6. Lorsqu'il se déconnecte, il est redirigé vers la page de connexion.
+
+Le responsable suit un parcours similaire pour se connecter, puis accède à **Gestion** afin d'ajouter, modifier ou supprimer un matériel. La suppression d'un matériel déjà réservé est refusée.
