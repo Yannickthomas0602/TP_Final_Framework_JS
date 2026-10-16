@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CATEGORIES, Categorie } from './data/donnees-initiales';
 import { CatalogueService, DonneesEquipement } from './catalogue.service';
@@ -21,7 +21,7 @@ export class GestionFormPage {
   protected readonly modification = Number.isInteger(this.id) && this.id > 0;
 
   protected nom = '';
-  protected categorie: Categorie = 'Informatique';
+  protected categorie: Categorie | '' = '';
   protected description = '';
   protected localisation = '';
 
@@ -39,18 +39,19 @@ export class GestionFormPage {
   }
 
   // Valide les champs puis ajoute ou modifie l'équipement persistant.
-  protected enregistrer(): void {
+  protected enregistrer(formulaire: NgForm): void {
     // On nettoie les champs texte avant de construire l'objet envoyé au service.
     const donnees: DonneesEquipement = {
       nom: this.nom.trim(),
-      categorie: this.categorie,
+      categorie: this.categorie as Categorie,
       description: this.description.trim(),
       localisation: this.localisation.trim()
     };
 
     // Un équipement incomplet n'est ni créé ni enregistré.
-    if (!donnees.nom || !donnees.description || !donnees.localisation) {
-      this.erreur.set('Tous les champs sont obligatoires.');
+    if (formulaire.invalid || !donnees.nom || !donnees.localisation) {
+      formulaire.form.markAllAsTouched();
+      this.erreur.set('Les champs nom, catégorie et localisation doivent contenir des informations.');
       return;
     }
 

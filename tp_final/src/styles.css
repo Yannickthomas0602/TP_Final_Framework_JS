@@ -278,6 +278,12 @@ textarea {
 	width: 100%;
 }
 
+form.ng-submitted input.ng-invalid,
+form.ng-submitted select.ng-invalid,
+form.ng-submitted textarea.ng-invalid {
+	border-color: var(--coral-dark);
+}
+
 textarea {
 	min-height: 8rem;
 	resize: vertical;

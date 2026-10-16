@@ -1,14 +1,15 @@
 <h1>{{ modification ? 'Modifier une fiche matériel' : 'Ajouter une fiche matériel' }}</h1>
 
-<form (ngSubmit)="enregistrer()">
+<form #formulaire="ngForm" (ngSubmit)="enregistrer(formulaire)" novalidate>
   <label>
-    Nom
+    <span>Nom <span aria-hidden="true">*</span></span>
     <input type="text" name="nom" [(ngModel)]="nom" required>
   </label>
 
   <label>
-    Catégorie
-    <select name="categorie" [(ngModel)]="categorie">
+    <span>Catégorie <span aria-hidden="true">*</span></span>
+    <select name="categorie" [(ngModel)]="categorie" required>
+      <option value="">Sélectionner une catégorie</option>
       @for (categorieOption of categories; track categorieOption) {
         <option [value]="categorieOption">{{ categorieOption }}</option>
       }
@@ -16,12 +17,12 @@
   </label>
 
   <label>
-    Description
-    <textarea name="description" [(ngModel)]="description" required></textarea>
+    <span>Description</span>
+    <textarea name="description" [(ngModel)]="description"></textarea>
   </label>
 
   <label>
-    Localisation
+    <span>Localisation <span aria-hidden="true">*</span></span>
     <input type="text" name="localisation" [(ngModel)]="localisation" required>
   </label>
 
