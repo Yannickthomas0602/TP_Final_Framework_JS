@@ -4,7 +4,7 @@
 		<div>
 			@if (session.utilisateur(); as utilisateur) {
 				<div class="profile-menu">
-					<button type="button" aria-haspopup="true" [attr.aria-expanded]="menuOuvert()" (click)="basculerMenu()">
+					<button class="profile-trigger" type="button" aria-haspopup="true" [attr.aria-expanded]="menuOuvert()" (click)="basculerMenu()">
 						<span aria-hidden="true">&#128100;</span> {{ utilisateur.nom }}
 					</button>
 					@if (menuOuvert()) {
@@ -14,14 +14,14 @@
 					}
 				</div>
 			} @else {
-				<button type="button" routerLink="/login">Se connecter</button>
+				<button class="nav-action" type="button" routerLink="/login" routerLinkActive="nav-action--active">Se connecter</button>
 			}
-			<button type="button" routerLink="/catalogue">Catalogue</button>
+			<button class="nav-action" type="button" routerLink="/catalogue" routerLinkActive="nav-action--active">Catalogue</button>
 			@if (session.utilisateur()?.role === 'student') {
-				<button type="button" routerLink="/mes-reservations">Réservations</button>
+				<button class="nav-action" type="button" routerLink="/mes-reservations" routerLinkActive="nav-action--active">Réservations</button>
 			}
 			@if (session.utilisateur()?.role === 'manager') {
-				<button type="button" routerLink="/gestion">Gérer les catalogues et les réservations</button>
+				<button class="nav-action" type="button" routerLink="/gestion" routerLinkActive="nav-action--active">Gérer les catalogues et les réservations</button>
 			}
 		</div>
 	</nav>

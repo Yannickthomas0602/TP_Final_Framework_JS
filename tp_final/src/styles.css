@@ -137,16 +137,47 @@ nav > div {
 	justify-content: flex-end;
 }
 
+nav .nav-action {
+	background: var(--white);
+	border-color: var(--ink-soft);
+	box-shadow: 2px 2px 0 var(--line);
+	color: var(--ink);
+	min-height: 2.75rem;
+}
+
+nav .nav-action:hover:not(:disabled),
+nav .nav-action--active {
+	background: var(--yellow);
+	border-color: var(--ink);
+	box-shadow: 3px 3px 0 var(--ink);
+	color: var(--ink);
+}
+
+.profile-trigger {
+	align-items: center;
+	display: inline-flex;
+	gap: .4rem;
+	min-height: 2.75rem;
+}
+
 .profile-menu {
 	position: relative;
 }
 
 .profile-menu .logout-menu {
+	background: var(--white);
+	border-color: var(--coral-dark);
+	color: var(--coral-dark);
 	left: 0;
 	position: absolute;
 	top: calc(100% + .45rem);
 	white-space: nowrap;
 	z-index: 2;
+}
+
+.profile-menu .logout-menu:hover:not(:disabled) {
+	background: var(--paper-deep);
+	color: var(--coral-dark);
 }
 
 button,
@@ -468,6 +499,11 @@ dd {
 
 	nav button {
 		flex: 1 1 auto;
+	}
+
+	nav .nav-action,
+	.profile-trigger {
+		flex: 1 1 10rem;
 	}
 
 	li {
