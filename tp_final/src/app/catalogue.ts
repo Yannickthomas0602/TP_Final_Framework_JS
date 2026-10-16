@@ -10,6 +10,11 @@ import {
 
 type FiltreDisponibilite = 'tous' | 'disponible' | 'reserve';
 
+/**
+ * Page principale du catalogue.
+ * Les équipements sont lus depuis les données initiales et peuvent être
+ * filtrés localement sans modifier le tableau source.
+ */
 @Component({
   standalone: true,
   imports: [FormsModule, RouterLink],
@@ -17,16 +22,23 @@ type FiltreDisponibilite = 'tous' | 'disponible' | 'reserve';
 })
 export class CataloguePage {
   protected readonly categories = CATEGORIES;
+
+  // Valeurs saisies par la personne
   protected readonly recherche = signal('');
   protected readonly categorieSelectionnee = signal<Categorie | 'toutes'>('toutes');
   protected readonly disponibiliteSelectionnee = signal<FiltreDisponibilite>('tous');
 
-  protected get equipementsFiltres(): Equipement[] {
+
+//    Retourne les équipements qui correspondent aux trois critères actifs.
+//    Les critères vides ou positionnés sur « tous » ne restreignent pas la liste.
+     protected get equipementsFiltres(): Equipement[] {
+    // La recherche est normalisée pour accepter les majuscules et les espaces inutiles.
     const recherche = this.recherche().trim().toLocaleLowerCase();
     const categorie = this.categorieSelectionnee();
     const disponibilite = this.disponibiliteSelectionnee();
 
     return EQUIPEMENTS_INITIAUX.filter(equipement => {
+      // Chaque équipement doit respecter simultanément les trois critères actifs.
       const correspondAuNom = equipement.nom.toLocaleLowerCase().includes(recherche);
       const correspondALaCategorie = categorie === 'toutes' || equipement.categorie === categorie;
       const correspondALaDisponibilite = disponibilite === 'tous'
@@ -37,14 +49,17 @@ export class CataloguePage {
     });
   }
 
+  //Met à jour la recherche à partir du champ texte
   protected setRecherche(event: Event): void {
     this.recherche.set((event.target as HTMLInputElement).value);
   }
 
+  // Met à jour la catégorie sélectionnée dans le menu déroulant
   protected setCategorie(event: Event): void {
     this.categorieSelectionnee.set((event.target as HTMLSelectElement).value as Categorie | 'toutes');
   }
 
+  // Met à jour le filtre de disponibilité dans le menu déroulant
   protected setDisponibilite(event: Event): void {
     this.disponibiliteSelectionnee.set((event.target as HTMLSelectElement).value as FiltreDisponibilite);
   }

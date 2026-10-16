@@ -2,7 +2,16 @@
 	<nav aria-label="Navigation principale">
 		<a routerLink="/" aria-label="Accueil Campus Material">Campus Material</a>
 		<div>
-			<button type="button" routerLink="/login">Se connecter</button>
+			@if (session.utilisateur(); as utilisateur) {
+				<button type="button" (click)="basculerMenu()">
+					<span aria-hidden="true">&#128100;</span> {{ utilisateur.nom }}
+				</button>
+				@if (menuOuvert()) {
+					<button type="button" (click)="seDeconnecter()">Se déconnecter</button>
+				}
+			} @else {
+				<button type="button" routerLink="/login">Se connecter</button>
+			}
 			<button type="button" routerLink="/catalogue">Catalogue</button>
 		</div>
 	</nav>

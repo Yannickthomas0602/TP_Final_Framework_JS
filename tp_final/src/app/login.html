@@ -1,0 +1,14 @@
+<h1>Se connecter</h1>
+
+<form (ngSubmit)="seConnecter()">
+  <label>
+    Votre nom
+    <input type="text" name="nom" [(ngModel)]="nom" required>
+  </label>
+
+  @if (erreur()) {
+    <p role="alert">{{ erreur() }}</p>
+  }
+
+  <button type="submit">Se connecter</button>
+</form>
