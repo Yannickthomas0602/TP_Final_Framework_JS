@@ -11,11 +11,9 @@ import { ReservationService } from './reservation.service';
 
 type FiltreDisponibilite = 'tous' | 'disponible' | 'reserve';
 
-/**
- * Page principale du catalogue.
- * Les équipements sont lus depuis les données initiales et peuvent être
- * filtrés localement sans modifier le tableau source.
- */
+// Page principale du catalogue.
+// Les équipements sont lus depuis les données initiales et peuvent être
+// filtrés localement sans modifier le tableau source.
 @Component({
   standalone: true,
   imports: [FormsModule, RouterLink],

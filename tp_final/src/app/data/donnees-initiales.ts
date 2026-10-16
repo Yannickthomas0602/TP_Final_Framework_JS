@@ -1,11 +1,4 @@
-/**
- * Campus Matériel — données de départ pour Angular.
- * Emplacement conseillé : src/app/data/donnees-initiales.ts
- *
- * Ces comptes servent uniquement à simuler une connexion.
- * Aucun mot de passe ni véritable contrôle d'identité n'est fourni.
- * Les identifiants sont stables : ne pas utiliser l'indice du tableau.
- */
+
 export type Role = 'student' | 'manager';
 export type Categorie = 'Informatique' | 'Projection' | 'Photo' | 'Audio';
 
@@ -97,14 +90,4 @@ export const EQUIPEMENTS_INITIAUX: Equipement[] = [
 // Annuler une réservation consiste à retirer cette entrée.
 export const RESERVATIONS_INITIALES: Reservation[] = [];
 
-/**
- * Exemple de règle à implémenter dans le service de données :
- * un équipement est disponible si aucune réservation active
- * ne possède son equipementId. Ne pas ajouter de champ disponible.
- *
- * Initialiser localStorage avec ces données uniquement si la clé
- * n'existe pas. Un tableau vide enregistré est une donnée valide.
- * Copier les données initiales avant modification (structuredClone).
- * Pour un nouvel équipement, générer un id unique, pas length + 1.
- * Pour une réservation, on peut utiliser crypto.randomUUID().
- */
+

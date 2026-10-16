@@ -5,24 +5,20 @@ import {
   RESERVATIONS_INITIALES
 } from './data/donnees-initiales';
 
-/**
- * Centralise les réservations et leur persistance.
- * Le signal permet aux pages catalogue, détail et réservations de rester
- * synchronisées après chaque ajout ou annulation.
- */
+// Centralise les réservations et leur persistance.
+// Le signal permet aux pages catalogue, détail et réservations de rester
+// synchronisées après chaque ajout ou annulation.
 @Injectable({ providedIn: 'root' })
 export class ReservationService {
   private readonly cleStockage = 'campus-material-reservations';
   private readonly platformId = inject(PLATFORM_ID);
 
-  /** État courant des réservations de l'application. */
+  // État courant des réservations de l'application.
   readonly reservations = signal<Reservation[]>(this.chargerReservations());
 
-  /**
-   * Charge les réservations existantes côté navigateur.
-   * En SSR, localStorage n'existe pas : les données initiales servent alors
-   * uniquement de valeur de départ pour le rendu serveur.
-   */
+  // Charge les réservations existantes côté navigateur.
+  // En SSR, localStorage n'existe pas : les données initiales servent alors
+  // uniquement de valeur de départ pour le rendu serveur.
   private chargerReservations(): Reservation[] {
     if (!isPlatformBrowser(this.platformId)) {
       return RESERVATIONS_INITIALES.map(reservation => ({ ...reservation }));
@@ -44,22 +40,20 @@ export class ReservationService {
     }
   }
 
-  /** Enregistre l'état courant uniquement dans le navigateur. */
+  // Enregistre l'état courant uniquement dans le navigateur.
   private sauvegarderReservations(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.cleStockage, JSON.stringify(this.reservations()));
     }
   }
 
-  /** Indique si un équipement possède déjà une réservation active. */
+  // Indique si un équipement possède déjà une réservation active.
   estReserve(equipementId: number): boolean {
     return this.reservations().some(reservation => reservation.equipementId === equipementId);
   }
 
-  /**
-   * Réserve un équipement pour un étudiant.
-   * Le retour false signale que l'équipement était déjà réservé.
-   */
+  // Réserve un équipement pour un étudiant.
+  // Le retour false signale que l'équipement était déjà réservé.
   reserver(equipementId: number, etudiantId: number): boolean {
     // La disponibilité est vérifiée avant toute écriture pour éviter les doublons.
     if (this.estReserve(equipementId)) {
@@ -79,10 +73,8 @@ export class ReservationService {
     return true;
   }
 
-  /**
-   * Annule une réservation uniquement si elle appartient à l'étudiant actif.
-   * La suppression rend immédiatement l'équipement disponible via estReserve.
-   */
+  // Annule une réservation uniquement si elle appartient à l'étudiant actif.
+  // La suppression rend immédiatement l'équipement disponible via estReserve.
   annuler(reservationId: string, etudiantId: number): boolean {
     const reservation = this.reservations().find(item => item.id === reservationId);
     // Un étudiant ne peut supprimer que sa propre réservation.
@@ -97,7 +89,7 @@ export class ReservationService {
     return true;
   }
 
-  /** Retourne uniquement les réservations d'un étudiant donné. */
+  // Retourne uniquement les réservations d'un étudiant donné.
   reservationsDe(etudiantId: number): Reservation[] {
     return this.reservations().filter(reservation => reservation.etudiantId === etudiantId);
   }

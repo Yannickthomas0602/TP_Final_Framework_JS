@@ -8,20 +8,18 @@ import { ReservationService } from './reservation.service';
 
 export type DonneesEquipement = Omit<Equipement, 'id' | 'reserve'>;
 
-/**
- * Centralise le catalogue modifiable par le responsable.
- * Les équipements sont persistés séparément des réservations dans localStorage.
- */
+// Centralise le catalogue modifiable par le responsable.
+// Les équipements sont persistés séparément des réservations dans localStorage.
 @Injectable({ providedIn: 'root' })
 export class CatalogueService {
   private readonly cleStockage = 'campus-material-equipements';
   private readonly platformId = inject(PLATFORM_ID);
   private readonly reservationService = inject(ReservationService);
 
-  /** État courant du catalogue partagé par toutes les pages. */
+  // État courant du catalogue partagé par toutes les pages.
   readonly equipements = signal<Equipement[]>(this.chargerEquipements());
 
-  /** Charge le catalogue sauvegardé ou crée une copie des données initiales. */
+  // Charge le catalogue sauvegardé ou crée une copie des données initiales.
   private chargerEquipements(): Equipement[] {
     // Le serveur ne peut pas accéder à localStorage : il utilise une copie isolée
     // des données initiales pour éviter toute modification du tableau source.
@@ -45,24 +43,24 @@ export class CatalogueService {
     }
   }
 
-  /** Sauvegarde le catalogue uniquement côté navigateur. */
+  // Sauvegarde le catalogue uniquement côté navigateur.
   private sauvegarder(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.cleStockage, JSON.stringify(this.equipements()));
     }
   }
 
-  /** Retourne un équipement par son identifiant. */
+  // Retourne un équipement par son identifiant.
   trouver(id: number): Equipement | undefined {
     return this.equipements().find(equipement => equipement.id === id);
   }
 
-  /** Retourne l'état réel, calculé à partir des réservations actives. */
+  // Retourne l'état réel, calculé à partir des réservations actives.
   estReserve(id: number): boolean {
     return this.reservationService.estReserve(id);
   }
 
-  /** Ajoute un équipement avec un identifiant supérieur aux identifiants existants. */
+  // Ajoute un équipement avec un identifiant supérieur aux identifiants existants.
   ajouter(donnees: DonneesEquipement): Equipement {
     // Le nouvel identifiant reste unique même si des équipements ont été supprimés.
     const prochainId = Math.max(0, ...this.equipements().map(equipement => equipement.id)) + 1;
@@ -72,7 +70,7 @@ export class CatalogueService {
     return equipement;
   }
 
-  /** Modifie les caractéristiques d'un équipement existant. */
+  // Modifie les caractéristiques d'un équipement existant.
   modifier(id: number, donnees: DonneesEquipement): boolean {
     // Une URL ou un formulaire peut contenir un identifiant inexistant.
     if (!this.trouver(id)) {
@@ -89,10 +87,8 @@ export class CatalogueService {
     return true;
   }
 
-  /**
-   * Supprime un équipement uniquement s'il existe et n'est pas réservé.
-   * Le responsable reçoit false lorsqu'une réservation bloque la suppression.
-   */
+  // Supprime un équipement uniquement s'il existe et n'est pas réservé.
+  // Le responsable reçoit false lorsqu'une réservation bloque la suppression.
   supprimer(id: number): boolean {
     // Les deux conditions protègent l'opération même si le bouton HTML est contourné.
     if (!this.trouver(id) || this.estReserve(id)) {

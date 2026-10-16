@@ -5,7 +5,7 @@ import { CatalogueService } from './catalogue.service';
 import { ReservationService } from './reservation.service';
 import { SessionService } from './session';
 
-/** Page des réservations personnelles, réservée aux étudiants connectés. */
+// Page des réservations personnelles, réservée aux étudiants connectés.
 @Component({
   standalone: true,
   imports: [RouterLink],
@@ -16,9 +16,7 @@ export class ReservationsPage {
   private readonly catalogueService = inject(CatalogueService);
   private readonly reservationService = inject(ReservationService);
 
-  /**
-   * Ne conserve que les réservations dont etudiantId correspond au compte actif.
-   */
+  // Ne conserve que les réservations dont etudiantId correspond au compte actif.
   protected get reservations(): Reservation[] {
     const utilisateur = this.session.utilisateur();
     return utilisateur
@@ -26,12 +24,12 @@ export class ReservationsPage {
       : [];
   }
 
-  /** Retrouve le matériel associé à une réservation pour l'afficher. */
+  // Retrouve le matériel associé à une réservation pour l'afficher.
   protected equipement(reservation: Reservation): Equipement | undefined {
     return this.catalogueService.trouver(reservation.equipementId);
   }
 
-  /** Annule une réservation appartenant à l'étudiant actuellement connecté. */
+  // Annule une réservation appartenant à l'étudiant actuellement connecté.
   protected annulerReservation(reservationId: string): void {
     const utilisateur = this.session.utilisateur();
     if (utilisateur) {

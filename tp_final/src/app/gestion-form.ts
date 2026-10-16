@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CATEGORIES, Categorie } from './data/donnees-initiales';
 import { CatalogueService, DonneesEquipement } from './catalogue.service';
 
-/** Formulaire responsable de création et de modification d'un équipement. */
+// Formulaire responsable de création et de modification d'un équipement.
 @Component({
   standalone: true,
   imports: [FormsModule, RouterLink],
@@ -38,7 +38,7 @@ export class GestionFormPage {
     }
   }
 
-  /** Valide les champs puis ajoute ou modifie l'équipement persistant. */
+  // Valide les champs puis ajoute ou modifie l'équipement persistant.
   protected enregistrer(): void {
     // On nettoie les champs texte avant de construire l'objet envoyé au service.
     const donnees: DonneesEquipement = {

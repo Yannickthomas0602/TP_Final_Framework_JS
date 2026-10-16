@@ -10,10 +10,8 @@ import { MaterielPage } from './materiel';
 import { NotFoundPage } from './not-found';
 import { ReservationsPage } from './reservations';
 
-/**
- * Décrit les pages de l'application et leurs règles d'accès.
- * Les guards redirigent les visiteurs vers login ou accès-refuse selon le cas.
- */
+// Décrit les pages de l'application et leurs règles d'accès.
+// Les guards redirigent les visiteurs vers login ou accès-refuse selon le cas.
 export const routes: Routes = [
 	{ path: '', component: AccueilPage, data: { title: 'Accueil' } },
 	{ path: 'login', component: LoginPage, data: { title: 'Choix du compte de démonstration' } },

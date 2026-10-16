@@ -10,20 +10,20 @@ import { SessionService } from './session';
   styleUrl: './app.css'
 })
 export class App {
-  /** Session partagée avec la page de connexion. */
+  // Session partagée avec la page de connexion.
   protected readonly session = inject(SessionService);
 
-  /** Contrôle l'affichage du bouton de déconnexion au clic. */
+  // Contrôle l'affichage du bouton de déconnexion au clic.
   protected readonly menuOuvert = signal(false);
 
   private readonly router = inject(Router);
 
-  /** Inverse l'état du menu affiché sous le profil connecté. */
+  // Inverse l'état du menu affiché sous le profil connecté.
   protected basculerMenu(): void {
     this.menuOuvert.update(ouvert => !ouvert);
   }
 
-  /** Ferme la session, masque le menu et renvoie vers /login. */
+  // Ferme la session, masque le menu et renvoie vers /login.
   protected seDeconnecter(): void {
     this.session.deconnecter();
     this.menuOuvert.set(false);

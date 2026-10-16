@@ -8,20 +8,17 @@ export interface UtilisateurConnecte {
   role: Role;
 }
 
-/**
- * Stocke l'utilisateur connecté pendant la durée de vie de l'application.
- * Ce service simule une session de démonstration sans authentification réelle.
- */
+// Stocke l'utilisateur connecté pendant la durée de vie de l'application.
+// Ce service simule une session de démonstration sans authentification réelle.
 @Injectable({ providedIn: 'root' })
 export class SessionService {
   private readonly cleStockage = 'campus-material-session';
   private readonly platformId = inject(PLATFORM_ID);
 
-  /** Recharge la session existante au démarrage de l'application. */
+  // Recharge la session existante au démarrage de l'application.
   readonly utilisateur = signal<UtilisateurConnecte | null>(this.chargerSession());
 
   private chargerSession(): UtilisateurConnecte | null {
-    // Le garde SSR évite toute référence à localStorage côté serveur.
     if (!isPlatformBrowser(this.platformId)) {
       return null;
     }
@@ -47,14 +44,14 @@ export class SessionService {
     }
   }
 
-  /** Ouvre une session avec le compte sélectionné sur la page de connexion. */
+  // Ouvre une session avec le compte sélectionné sur la page de connexion.
   connecter(id: number, nom: string, role: Role): void {
     const utilisateur = { id, nom: nom.trim(), role };
     this.utilisateur.set(utilisateur);
     this.sauvegarderSession(utilisateur);
   }
 
-  /** Ferme la session courante et supprime sa persistance. */
+  // Ferme la session courante et supprime sa persistance.
   deconnecter(): void {
     this.utilisateur.set(null);
     if (isPlatformBrowser(this.platformId)) {

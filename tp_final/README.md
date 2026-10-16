@@ -2,7 +2,23 @@
 
 Application Angular de consultation et de réservation de matériel du campus.
 
-## Installation
+## Installation et lancement du serveur
+
+### Prérequis
+
+- Node.js installé, version compatible avec Angular 21.
+- npm installé avec Node.js.
+- Git installé pour cloner le dépôt.
+
+Vérifier les installations :
+
+```bash
+node --version
+npm --version
+git --version
+```
+
+### Récupérer le projet
 
 Cloner le dépôt depuis GitHub puis entrer dans le dossier du projet :
 
@@ -11,24 +27,90 @@ git clone https://github.com/Yannickthomas0602/TP_Final_Framework_JS.git
 cd TP_Final_Framework_JS/tp_final
 ```
 
+### Installer les dépendances
+
 Depuis le dossier `tp_final` :
 
 ```bash
 npm install
 ```
 
-## Lancement
+### Lancer le serveur de développement
 
 ```bash
 npm start
 ```
 
-L'application est ensuite disponible à l'adresse `http://localhost:4200/`.
+Cette commande exécute `ng serve`. Le serveur surveille les modifications et reconstruit automatiquement l'application.
+
+L'application est disponible à l'adresse `http://localhost:4200/`.
+
+Pour arrêter le serveur, utiliser `Ctrl+C` dans le terminal.
+
+La commande Angular équivalente est :
+
+```bash
+npx ng serve
+```
+
+### Lancer le serveur SSR compilé
+
+Pour lancer la version compilée avec le serveur Angular/Express :
+
+```bash
+npm run build
+npm run serve:ssr:tp_final
+```
+
+Le serveur SSR est alors disponible par défaut à l'adresse `http://localhost:4000/`.
 
 Pour vérifier la compilation de production :
 
 ```bash
 npm run build
+```
+
+## Organisation du projet
+
+Le projet est une application Angular standalone. Les fichiers sont séparés entre les points d'entrée de l'application, les composants de l'interface, les services métier et les données initiales.
+
+```text
+tp_final/
+├── angular.json              # Configuration Angular
+├── package.json              # Dépendances et scripts npm
+├── tsconfig*.json            # Configuration TypeScript
+├── public/                   # Fichiers statiques publics
+└── src/
+	├── index.html            # Document HTML racine
+	├── main.ts               # Démarrage côté navigateur
+	├── main.server.ts        # Démarrage côté serveur
+	├── server.ts             # Serveur SSR Express
+	├── styles.css            # Styles globaux et thème du site
+	└── app/
+		├── app.ts            # Composant racine et navigation persistante
+		├── app.html          # Barre de navigation et router-outlet
+		├── app.routes.ts     # Routes Angular et règles d'accès
+		├── app.config.ts     # Configuration Angular côté navigateur
+		├── app.config.server.ts
+		├── app.routes.server.ts
+		├── app.spec.ts       # Tests du composant racine
+		│
+		├── accueil.ts / accueil.html
+		├── login.ts / login.html
+		├── catalogue.ts / catalogue.html
+		├── materiel.ts / materiel.html
+		├── reservations.ts / reservations.html
+		├── gestion.ts / gestion.html
+		├── gestion-form.ts / gestion-form.html
+		├── access-denied.ts / access-denied.html
+		├── not-found.ts / not-found.html
+		│
+		├── session.ts             # Session utilisateur et persistance
+		├── catalogue.service.ts   # Catalogue et opérations CRUD
+		├── reservation.service.ts # Réservations et disponibilité
+		├── auth.guard.ts          # Contrôle de connexion et de rôle
+		└── data/
+			└── donnees-initiales.ts # Comptes, catégories et équipements initiaux
 ```
 
 ## Comptes de démonstration
@@ -122,4 +204,3 @@ Les vérifications suivantes ont été effectuées manuellement dans l'applicati
 - L'annulation d'une réservation la supprime de la liste et rend l'équipement disponible.
 - Une session reste active après actualisation.
 - La déconnexion supprime la session et renvoie vers `/login`.
-- La compilation Angular réussit avec `npm run build`.

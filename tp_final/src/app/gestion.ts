@@ -6,7 +6,7 @@ import { ReservationService } from './reservation.service';
 
 type FiltreDisponibilite = 'tous' | 'disponible' | 'reserve';
 
-/** Page de gestion du catalogue réservée aux responsables. */
+// Page de gestion du catalogue réservée aux responsables.
 @Component({
   standalone: true,
   imports: [RouterLink],
@@ -22,10 +22,8 @@ export class GestionPage {
   protected readonly categorieSelectionnee = signal<Categorie | 'toutes'>('toutes');
   protected readonly disponibiliteSelectionnee = signal<FiltreDisponibilite>('tous');
 
-  /**
-   * Reprend les filtres du catalogue sur le catalogue complet du responsable,
-   * sans modifier les données persistées.
-   */
+  // Reprend les filtres du catalogue sur le catalogue complet du responsable,
+  // sans modifier les données persistées.
   protected get equipements(): Equipement[] {
     // Les signaux contiennent les valeurs saisies dans les contrôles de la page.
     const recherche = this.recherche().trim().toLocaleLowerCase();
@@ -63,10 +61,8 @@ export class GestionPage {
     this.disponibiliteSelectionnee.set((event.target as HTMLSelectElement).value as FiltreDisponibilite);
   }
 
-  /**
-   * Demande une confirmation avant suppression.
-   * Le service refuse ensuite toute suppression d'un équipement réservé.
-   */
+  // Demande une confirmation avant suppression.
+  // Le service refuse ensuite toute suppression d'un équipement réservé.
   protected supprimer(id: number): void {
     const equipement = this.catalogueService.trouver(id);
     if (!equipement || !window.confirm(`Supprimer « ${equipement.nom} » ?`)) {
