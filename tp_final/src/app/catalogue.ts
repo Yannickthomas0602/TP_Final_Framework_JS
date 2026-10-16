@@ -1,12 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
   CATEGORIES,
   Categorie,
-  EQUIPEMENTS_INITIAUX,
   Equipement
 } from './data/donnees-initiales';
+import { CatalogueService } from './catalogue.service';
+import { ReservationService } from './reservation.service';
 
 type FiltreDisponibilite = 'tous' | 'disponible' | 'reserve';
 
@@ -21,6 +22,9 @@ type FiltreDisponibilite = 'tous' | 'disponible' | 'reserve';
   templateUrl: './catalogue.html'
 })
 export class CataloguePage {
+  private readonly catalogueService = inject(CatalogueService);
+  private readonly reservationService = inject(ReservationService);
+
   protected readonly categories = CATEGORIES;
 
   // Valeurs saisies par la personne
@@ -37,7 +41,12 @@ export class CataloguePage {
     const categorie = this.categorieSelectionnee();
     const disponibilite = this.disponibiliteSelectionnee();
 
-    return EQUIPEMENTS_INITIAUX.filter(equipement => {
+    // On reconstruit l'état reserve depuis le service plutôt que depuis la
+    // constante initiale, car les réservations peuvent avoir changé.
+    return this.catalogueService.equipements().map(equipement => ({
+      ...equipement,
+      reserve: this.reservationService.estReserve(equipement.id)
+    })).filter(equipement => {
       // Chaque équipement doit respecter simultanément les trois critères actifs.
       const correspondAuNom = equipement.nom.toLocaleLowerCase().includes(recherche);
       const correspondALaCategorie = categorie === 'toutes' || equipement.categorie === categorie;

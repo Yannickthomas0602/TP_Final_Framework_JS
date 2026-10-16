@@ -1,14 +1,11 @@
 <h1>Se connecter</h1>
 
-<form (ngSubmit)="seConnecter()">
-  <label>
-    Votre nom
-    <input type="text" name="nom" [(ngModel)]="nom" required>
-  </label>
+<p>Choisissez un compte de démonstration :</p>
 
-  @if (erreur()) {
-    <p role="alert">{{ erreur() }}</p>
+<div>
+  @for (compte of comptes; track compte.id) {
+    <button type="button" (click)="seConnecter(compte.id, compte.nom, compte.role)">
+      {{ compte.nom }} — {{ libelleRole(compte.role) }}
+    </button>
   }
-
-  <button type="submit">Se connecter</button>
-</form>
+</div>

@@ -12,8 +12,18 @@
     <dd>{{ equipement.localisation }}</dd>
 
     <dt>État</dt>
-    <dd>{{ equipement.reserve ? 'Réservé' : 'Disponible' }}</dd>
+    <dd>{{ estReserve() ? 'Réservé' : 'Disponible' }}</dd>
   </dl>
+
+  @if (peutReserver()) {
+    <button type="button" (click)="reserver()">Réserver ce matériel</button>
+  } @else if (estReserve()) {
+    <p>Ce matériel est déjà réservé.</p>
+  }
+
+  @if (message()) {
+    <p role="status">{{ message() }}</p>
+  }
 
   <a routerLink="/catalogue">Retour au catalogue</a>
 } @else {

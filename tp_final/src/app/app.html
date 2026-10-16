@@ -13,6 +13,12 @@
 				<button type="button" routerLink="/login">Se connecter</button>
 			}
 			<button type="button" routerLink="/catalogue">Catalogue</button>
+			@if (session.utilisateur()?.role === 'student') {
+				<button type="button" routerLink="/mes-reservations">Réservations</button>
+			}
+			@if (session.utilisateur()?.role === 'manager') {
+				<button type="button" routerLink="/gestion">Gérer les catalogues et les réservations</button>
+			}
 		</div>
 	</nav>
 </header>

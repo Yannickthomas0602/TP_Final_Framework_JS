@@ -1,0 +1,62 @@
+import { Component, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CATEGORIES, Categorie } from './data/donnees-initiales';
+import { CatalogueService, DonneesEquipement } from './catalogue.service';
+
+/** Formulaire responsable de création et de modification d'un équipement. */
+@Component({
+  standalone: true,
+  imports: [FormsModule, RouterLink],
+  templateUrl: './gestion-form.html'
+})
+export class GestionFormPage {
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly catalogueService = inject(CatalogueService);
+
+  protected readonly categories = CATEGORIES;
+  protected readonly erreur = signal('');
+  protected readonly id = Number(this.route.snapshot.paramMap.get('id'));
+  protected readonly modification = Number.isInteger(this.id) && this.id > 0;
+
+  protected nom = '';
+  protected categorie: Categorie = 'Informatique';
+  protected description = '';
+  protected localisation = '';
+
+  constructor() {
+    if (this.modification) {
+      const equipement = this.catalogueService.trouver(this.id);
+      if (equipement) {
+        this.nom = equipement.nom;
+        this.categorie = equipement.categorie;
+        this.description = equipement.description;
+        this.localisation = equipement.localisation;
+      }
+    }
+  }
+
+  /** Valide les champs puis ajoute ou modifie l'équipement persistant. */
+  protected enregistrer(): void {
+    const donnees: DonneesEquipement = {
+      nom: this.nom.trim(),
+      categorie: this.categorie,
+      description: this.description.trim(),
+      localisation: this.localisation.trim()
+    };
+
+    if (!donnees.nom || !donnees.description || !donnees.localisation) {
+      this.erreur.set('Tous les champs sont obligatoires.');
+      return;
+    }
+
+    if (this.modification) {
+      this.catalogueService.modifier(this.id, donnees);
+    } else {
+      this.catalogueService.ajouter(donnees);
+    }
+
+    this.router.navigateByUrl('/gestion');
+  }
+}

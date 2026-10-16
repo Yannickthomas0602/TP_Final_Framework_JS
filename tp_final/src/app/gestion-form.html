@@ -1,0 +1,34 @@
+<h1>{{ modification ? 'Modifier une fiche matériel' : 'Ajouter une fiche matériel' }}</h1>
+
+<form (ngSubmit)="enregistrer()">
+  <label>
+    Nom
+    <input type="text" name="nom" [(ngModel)]="nom" required>
+  </label>
+
+  <label>
+    Catégorie
+    <select name="categorie" [(ngModel)]="categorie">
+      @for (categorieOption of categories; track categorieOption) {
+        <option [value]="categorieOption">{{ categorieOption }}</option>
+      }
+    </select>
+  </label>
+
+  <label>
+    Description
+    <textarea name="description" [(ngModel)]="description" required></textarea>
+  </label>
+
+  <label>
+    Localisation
+    <input type="text" name="localisation" [(ngModel)]="localisation" required>
+  </label>
+
+  @if (erreur()) {
+    <p role="alert">{{ erreur() }}</p>
+  }
+
+  <button type="submit">Enregistrer</button>
+  <a routerLink="/gestion">Annuler</a>
+</form>

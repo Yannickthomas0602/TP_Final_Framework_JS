@@ -1,0 +1,23 @@
+<h1>Mes réservations</h1>
+
+<p>Voici les réservations associées à votre compte.</p>
+
+<ul>
+  @for (reservation of reservations; track reservation.id) {
+    @if (equipement(reservation); as materiel) {
+      <li>
+        <h2>{{ materiel.nom }}</h2>
+        <p>Catégorie : {{ materiel.categorie }}</p>
+        <p>Localisation : {{ materiel.localisation }}</p>
+        <p>Identifiant de réservation : {{ reservation.id }}</p>
+        <button type="button" (click)="annulerReservation(reservation.id)">
+          Annuler la réservation
+        </button>
+      </li>
+    }
+  } @empty {
+    <li>Vous n'avez aucune réservation.</li>
+  }
+</ul>
+
+<button type="button" routerLink="/catalogue">Voir le catalogue</button>

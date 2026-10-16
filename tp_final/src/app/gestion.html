@@ -1,0 +1,26 @@
+<h1>Gérer les catalogues et les réservations</h1>
+
+<a routerLink="/gestion/nouveau">Ajouter une fiche matériel</a>
+
+@if (message()) {
+  <p role="status">{{ message() }}</p>
+}
+
+<ul>
+  @for (equipement of equipements; track equipement.id) {
+    <li>
+      <h2>{{ equipement.nom }}</h2>
+      <p>{{ equipement.categorie }} — {{ equipement.localisation }}</p>
+      <p>État : {{ equipement.reserve ? 'Réservé' : 'Disponible' }}</p>
+      <a [routerLink]="['/gestion', equipement.id, 'modifier']">Modifier</a>
+      <button
+        type="button"
+        [disabled]="equipement.reserve"
+        (click)="supprimer(equipement.id)">
+        Supprimer
+      </button>
+    </li>
+  } @empty {
+    <li>Aucun équipement dans le catalogue.</li>
+  }
+</ul>
