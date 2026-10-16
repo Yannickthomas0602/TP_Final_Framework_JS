@@ -1,0 +1,41 @@
+<h1>Catalogue</h1>
+
+<section aria-label="Filtres du catalogue">
+  <label>
+    Rechercher par nom
+    <input type="search" (input)="setRecherche($event)" placeholder="Nom du matériel">
+  </label>
+
+  <label>
+    Catégorie
+    <select (change)="setCategorie($event)">
+      <option value="toutes">Toutes les catégories</option>
+      @for (categorie of categories; track categorie) {
+        <option [value]="categorie">{{ categorie }}</option>
+      }
+    </select>
+  </label>
+
+  <label>
+    Disponibilité
+    <select (change)="setDisponibilite($event)">
+      <option value="tous">Tous</option>
+      <option value="disponible">Disponible</option>
+      <option value="reserve">Réservé</option>
+    </select>
+  </label>
+</section>
+
+<p>{{ equipementsFiltres.length }} matériel(s) affiché(s)</p>
+
+<ul>
+  @for (equipement of equipementsFiltres; track equipement.id) {
+    <li>
+      <h2>{{ equipement.nom }}</h2>
+      <p>État : {{ equipement.reserve ? 'Réservé' : 'Disponible' }}</p>
+      <a [routerLink]="['/materiels', equipement.id]">Voir le matériel</a>
+    </li>
+  } @empty {
+    <li>Aucun matériel ne correspond aux filtres sélectionnés.</li>
+  }
+</ul>

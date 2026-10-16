@@ -1,0 +1,22 @@
+@if (equipement) {
+  <h1>{{ equipement.nom }}</h1>
+
+  <dl>
+    <dt>Description</dt>
+    <dd>{{ equipement.description }}</dd>
+
+    <dt>Catégorie</dt>
+    <dd>{{ equipement.categorie }}</dd>
+
+    <dt>Localisation</dt>
+    <dd>{{ equipement.localisation }}</dd>
+
+    <dt>État</dt>
+    <dd>{{ equipement.reserve ? 'Réservé' : 'Disponible' }}</dd>
+  </dl>
+
+  <a routerLink="/catalogue">Retour au catalogue</a>
+} @else {
+  <h1>Matériel introuvable</h1>
+  <a routerLink="/catalogue">Retour au catalogue</a>
+}
