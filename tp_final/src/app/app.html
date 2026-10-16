@@ -3,12 +3,16 @@
 		<a routerLink="/" aria-label="Accueil Campus Material">Campus Material</a>
 		<div>
 			@if (session.utilisateur(); as utilisateur) {
-				<button type="button" (click)="basculerMenu()">
-					<span aria-hidden="true">&#128100;</span> {{ utilisateur.nom }}
-				</button>
-				@if (menuOuvert()) {
-					<button type="button" (click)="seDeconnecter()">Se déconnecter</button>
-				}
+				<div class="profile-menu">
+					<button type="button" aria-haspopup="true" [attr.aria-expanded]="menuOuvert()" (click)="basculerMenu()">
+						<span aria-hidden="true">&#128100;</span> {{ utilisateur.nom }}
+					</button>
+					@if (menuOuvert()) {
+						<button class="logout-menu" type="button" (click)="seDeconnecter()">
+							Se déconnecter
+						</button>
+					}
+				</div>
 			} @else {
 				<button type="button" routerLink="/login">Se connecter</button>
 			}
@@ -23,4 +27,6 @@
 	</nav>
 </header>
 
-<router-outlet />
+<main>
+	<router-outlet />
+</main>

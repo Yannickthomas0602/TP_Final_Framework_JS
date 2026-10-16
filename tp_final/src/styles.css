@@ -1,1 +1,456 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+	--ink: #172536;
+	--ink-soft: #405263;
+	--paper: #fffdf5;
+	--paper-deep: #f4eedf;
+	--line: #d8e0e5;
+	--yellow: #f5c84b;
+	--yellow-dark: #805d00;
+	--coral: #b4422f;
+	--coral-dark: #7f2b21;
+	--green: #166044;
+	--white: #ffffff;
+	color: var(--ink);
+	font-family: "Trebuchet MS", Verdana, sans-serif;
+	line-height: 1.5;
+	background: var(--paper);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	min-width: 320px;
+	background: var(--paper);
+}
+
+body {
+	margin: 0;
+	min-width: 320px;
+	min-height: 100vh;
+	background-color: var(--paper);
+	background-image: repeating-linear-gradient(
+		0deg,
+		transparent 0,
+		transparent 31px,
+		rgba(71, 122, 151, .12) 32px,
+		transparent 33px
+	);
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+}
+
+button,
+a {
+	-webkit-tap-highlight-color: transparent;
+}
+
+a {
+	color: var(--coral-dark);
+	font-weight: 700;
+}
+
+a:hover {
+	color: var(--ink);
+}
+
+.add-equipment {
+	align-items: center;
+	background: var(--yellow);
+	border: 2px solid var(--ink);
+	border-radius: 5px 7px 4px 6px;
+	box-shadow: 3px 3px 0 var(--ink);
+	color: var(--ink);
+	display: inline-flex;
+	font-weight: 700;
+	gap: .5rem;
+	padding: .7rem 1rem;
+	text-decoration: none;
+}
+
+.add-equipment span {
+	font-size: 1.45rem;
+	font-weight: 700;
+	line-height: .8;
+}
+
+.add-equipment:hover {
+	background: #e4b52f;
+	color: var(--ink);
+	transform: translateY(-1px) rotate(-.4deg);
+}
+
+:focus-visible {
+	outline: 4px solid var(--yellow-dark);
+	outline-offset: 3px;
+}
+
+header {
+	border-bottom: 3px solid var(--ink);
+	background: var(--paper);
+	box-shadow: 0 3px 0 rgba(23, 37, 54, .12);
+}
+
+nav {
+	align-items: center;
+	display: flex;
+	gap: 1rem;
+	justify-content: space-between;
+	margin: 0 auto;
+	max-width: 1180px;
+	padding: 1rem clamp(1rem, 4vw, 3rem);
+}
+
+nav > a {
+	align-items: center;
+	color: var(--ink);
+	display: inline-flex;
+	font-family: Georgia, serif;
+	font-size: clamp(1.1rem, 2vw, 1.45rem);
+	gap: .55rem;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+nav > a::before {
+	background: var(--yellow);
+	border: 2px solid var(--ink);
+	border-radius: 48% 52% 45% 55%;
+	content: "";
+	display: inline-block;
+	height: 1.15rem;
+	transform: rotate(-8deg);
+	width: 1.15rem;
+}
+
+nav > div {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: .55rem;
+	justify-content: flex-end;
+}
+
+.profile-menu {
+	position: relative;
+}
+
+.profile-menu .logout-menu {
+	left: 0;
+	position: absolute;
+	top: calc(100% + .45rem);
+	white-space: nowrap;
+	z-index: 2;
+}
+
+button,
+nav button,
+form button {
+	background: var(--ink);
+	border: 2px solid var(--ink);
+	border-radius: 5px 7px 4px 6px;
+	color: var(--white);
+	cursor: pointer;
+	font-weight: 700;
+	padding: .65rem .9rem;
+	transition: background-color .15s ease, transform .15s ease;
+}
+
+button:hover:not(:disabled) {
+	background: var(--coral-dark);
+	transform: translateY(-1px) rotate(-.4deg);
+}
+
+button:disabled {
+	background: #a9b3b9;
+	border-color: #7c8991;
+	color: #27333a;
+	cursor: not-allowed;
+}
+
+main,
+router-outlet + * {
+	display: block;
+}
+
+main {
+	margin: 0 auto;
+	max-width: 1180px;
+	padding: clamp(2rem, 6vw, 5rem) clamp(1rem, 4vw, 3rem);
+}
+
+h1,
+h2 {
+	color: var(--ink);
+	font-family: Georgia, "Times New Roman", serif;
+	line-height: 1.1;
+}
+
+h1 {
+	font-size: clamp(2.3rem, 6vw, 4.8rem);
+	margin: 0 0 1.4rem;
+	max-width: 850px;
+	text-wrap: balance;
+}
+
+h1::after {
+	background: var(--yellow);
+	content: "";
+	display: block;
+	height: .35rem;
+	margin-top: .65rem;
+	transform: rotate(-1deg);
+	width: min(12rem, 55%);
+}
+
+h2 {
+	font-size: 1.35rem;
+	margin-bottom: .45rem;
+}
+
+p {
+	color: var(--ink-soft);
+}
+
+ul {
+	display: grid;
+	gap: 1rem;
+	list-style: none;
+	margin: 1.5rem 0;
+	padding: 0;
+}
+
+li {
+	background: rgba(255, 255, 255, .82);
+	border: 2px solid var(--ink);
+	border-radius: 4px 8px 5px 7px;
+	box-shadow: 5px 5px 0 var(--yellow);
+	padding: 1.15rem 1.25rem;
+}
+
+li p {
+	margin: .25rem 0;
+}
+
+.management-actions {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	margin-top: 1rem;
+}
+
+.account-choices {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	max-width: 32rem;
+}
+
+.account-choices button {
+	text-align: left;
+	width: 100%;
+}
+
+label {
+	color: var(--ink);
+	display: grid;
+	font-weight: 700;
+	gap: .35rem;
+	margin: 1rem 0;
+	max-width: 42rem;
+}
+
+input,
+select,
+textarea {
+	background: var(--white);
+	border: 2px solid var(--ink-soft);
+	border-radius: 4px;
+	color: var(--ink);
+	padding: .7rem .8rem;
+	width: 100%;
+}
+
+textarea {
+	min-height: 8rem;
+	resize: vertical;
+}
+
+form {
+	background: rgba(255, 255, 255, .75);
+	border: 2px dashed var(--ink-soft);
+	margin: 1.5rem 0;
+	max-width: 42rem;
+	padding: 1.25rem clamp(1rem, 4vw, 2rem);
+}
+
+form button,
+main > button {
+	margin-top: .75rem;
+}
+
+dl {
+	background: rgba(255, 255, 255, .8);
+	border-left: 5px solid var(--yellow-dark);
+	margin: 1.5rem 0;
+	max-width: 48rem;
+	padding: 1rem 1.25rem;
+}
+
+dt {
+	color: var(--ink-soft);
+	font-size: .82rem;
+	font-weight: 700;
+	margin-top: .75rem;
+	text-transform: uppercase;
+}
+
+dd {
+	margin: .15rem 0 0;
+}
+
+[role="alert"],
+[role="status"] {
+	border-left: 5px solid var(--coral);
+	color: var(--coral-dark);
+	font-weight: 700;
+	padding: .5rem .75rem;
+}
+
+.status-page {
+	background: rgba(255, 255, 255, .82);
+	border: 3px solid var(--ink);
+	border-radius: 5px 10px 7px 9px;
+	box-shadow: 8px 8px 0 var(--yellow);
+	margin: 1rem auto;
+	max-width: 780px;
+	padding: clamp(1.5rem, 6vw, 4rem);
+	position: relative;
+	text-align: center;
+}
+
+.status-page::before {
+	border: 2px dashed var(--ink-soft);
+	border-radius: 5px 8px 6px 10px;
+	content: "";
+	inset: .65rem;
+	pointer-events: none;
+	position: absolute;
+}
+
+.status-code,
+.status-label,
+.status-message,
+.status-actions {
+	position: relative;
+}
+
+.status-code {
+	color: var(--yellow-dark);
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: clamp(4rem, 14vw, 8rem);
+	font-weight: 700;
+	line-height: .9;
+	margin: 0;
+}
+
+.status-page--denied .status-code {
+	color: var(--coral-dark);
+}
+
+.status-label {
+	color: var(--coral-dark);
+	font-size: .85rem;
+	font-weight: 700;
+	letter-spacing: .12em;
+	margin: 1rem 0 .75rem;
+	text-transform: uppercase;
+}
+
+.status-page h1 {
+	font-size: clamp(2rem, 5vw, 3.8rem);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.status-page h1::after {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.status-message {
+	font-size: 1.05rem;
+	margin: 0 auto;
+	max-width: 560px;
+}
+
+.status-actions {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: .75rem;
+	justify-content: center;
+	margin-top: 2rem;
+}
+
+.status-action {
+	background: var(--ink);
+	border: 2px solid var(--ink);
+	border-radius: 5px 7px 4px 6px;
+	color: var(--white);
+	display: inline-block;
+	font-weight: 700;
+	padding: .7rem 1rem;
+	text-decoration: none;
+}
+
+.status-action:hover {
+	background: var(--coral-dark);
+	color: var(--white);
+}
+
+.status-action--light {
+	background: var(--white);
+	color: var(--ink);
+}
+
+.status-action--light:hover {
+	background: var(--paper-deep);
+	color: var(--ink);
+}
+
+@media (max-width: 760px) {
+	nav {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	nav > div {
+		justify-content: flex-start;
+		width: 100%;
+	}
+
+	nav button {
+		flex: 1 1 auto;
+	}
+
+	li {
+		box-shadow: 3px 3px 0 var(--yellow);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: .01ms !important;
+	}
+}

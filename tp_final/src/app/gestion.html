@@ -1,6 +1,38 @@
 <h1>Gérer les catalogues et les réservations</h1>
 
-<a routerLink="/gestion/nouveau">Ajouter une fiche matériel</a>
+<a class="add-equipment" routerLink="/gestion/nouveau">
+  <span aria-hidden="true">+</span>
+  Ajouter une fiche matériel
+</a>
+
+<section aria-label="Recherche, filtres et tri du catalogue">
+  <label>
+    Rechercher par nom
+    <input type="search" (input)="setRecherche($event)" placeholder="Nom du matériel">
+  </label>
+
+  <label>
+    Catégorie
+    <select (change)="setCategorie($event)">
+      <option value="toutes">Toutes les catégories</option>
+      @for (categorie of categories; track categorie) {
+        <option [value]="categorie">{{ categorie }}</option>
+      }
+    </select>
+  </label>
+
+  <label>
+    Disponibilité
+    <select (change)="setDisponibilite($event)">
+      <option value="tous">Tous</option>
+      <option value="disponible">Disponible</option>
+      <option value="reserve">Réservé</option>
+    </select>
+  </label>
+
+</section>
+
+<p>{{ equipements.length }} équipement(s) affiché(s)</p>
 
 @if (message()) {
   <p role="status">{{ message() }}</p>
@@ -12,13 +44,15 @@
       <h2>{{ equipement.nom }}</h2>
       <p>{{ equipement.categorie }} — {{ equipement.localisation }}</p>
       <p>État : {{ equipement.reserve ? 'Réservé' : 'Disponible' }}</p>
-      <a [routerLink]="['/gestion', equipement.id, 'modifier']">Modifier</a>
-      <button
-        type="button"
-        [disabled]="equipement.reserve"
-        (click)="supprimer(equipement.id)">
-        Supprimer
-      </button>
+      <div class="management-actions">
+        <a [routerLink]="['/gestion', equipement.id, 'modifier']">Modifier</a>
+        <button
+          type="button"
+          [disabled]="equipement.reserve"
+          (click)="supprimer(equipement.id)">
+          Supprimer
+        </button>
+      </div>
     </li>
   } @empty {
     <li>Aucun équipement dans le catalogue.</li>

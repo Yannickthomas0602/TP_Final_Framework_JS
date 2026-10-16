@@ -2,7 +2,7 @@
 
 <p>Choisissez un compte de démonstration :</p>
 
-<div>
+<div class="account-choices">
   @for (compte of comptes; track compte.id) {
     <button type="button" (click)="seConnecter(compte.id, compte.nom, compte.role)">
       {{ compte.nom }} — {{ libelleRole(compte.role) }}

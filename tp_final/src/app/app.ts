@@ -13,7 +13,7 @@ export class App {
   /** Session partagée avec la page de connexion. */
   protected readonly session = inject(SessionService);
 
-  /** Contrôle l'affichage du bouton de déconnexion. */
+  /** Contrôle l'affichage du bouton de déconnexion au clic. */
   protected readonly menuOuvert = signal(false);
 
   private readonly router = inject(Router);
