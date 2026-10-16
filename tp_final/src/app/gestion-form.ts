@@ -26,6 +26,7 @@ export class GestionFormPage {
   protected localisation = '';
 
   constructor() {
+    // En modification, les valeurs existantes préremplissent le formulaire.
     if (this.modification) {
       const equipement = this.catalogueService.trouver(this.id);
       if (equipement) {
@@ -39,6 +40,7 @@ export class GestionFormPage {
 
   /** Valide les champs puis ajoute ou modifie l'équipement persistant. */
   protected enregistrer(): void {
+    // On nettoie les champs texte avant de construire l'objet envoyé au service.
     const donnees: DonneesEquipement = {
       nom: this.nom.trim(),
       categorie: this.categorie,
@@ -46,11 +48,13 @@ export class GestionFormPage {
       localisation: this.localisation.trim()
     };
 
+    // Un équipement incomplet n'est ni créé ni enregistré.
     if (!donnees.nom || !donnees.description || !donnees.localisation) {
       this.erreur.set('Tous les champs sont obligatoires.');
       return;
     }
 
+    // Le même formulaire sert aux deux routes : création ou modification.
     if (this.modification) {
       this.catalogueService.modifier(this.id, donnees);
     } else {

@@ -21,11 +21,13 @@ export class SessionService {
   readonly utilisateur = signal<UtilisateurConnecte | null>(this.chargerSession());
 
   private chargerSession(): UtilisateurConnecte | null {
+    // Le garde SSR évite toute référence à localStorage côté serveur.
     if (!isPlatformBrowser(this.platformId)) {
       return null;
     }
 
     const donnees = localStorage.getItem(this.cleStockage);
+    // L'absence de session signifie simplement que l'utilisateur est déconnecté.
     if (!donnees) {
       return null;
     }
@@ -39,6 +41,7 @@ export class SessionService {
   }
 
   private sauvegarderSession(utilisateur: UtilisateurConnecte): void {
+    // La session est persistée uniquement dans le navigateur.
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.cleStockage, JSON.stringify(utilisateur));
     }

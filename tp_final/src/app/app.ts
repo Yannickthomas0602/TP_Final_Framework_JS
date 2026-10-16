@@ -18,6 +18,7 @@ export class App {
 
   private readonly router = inject(Router);
 
+  /** Inverse l'état du menu affiché sous le profil connecté. */
   protected basculerMenu(): void {
     this.menuOuvert.update(ouvert => !ouvert);
   }

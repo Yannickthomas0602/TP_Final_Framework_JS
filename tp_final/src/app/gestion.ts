@@ -24,17 +24,20 @@ export class GestionPage {
 
   /**
    * Reprend les filtres du catalogue sur le catalogue complet du responsable,
-  * sans modifier les données persistées.
+   * sans modifier les données persistées.
    */
   protected get equipements(): Equipement[] {
+    // Les signaux contiennent les valeurs saisies dans les contrôles de la page.
     const recherche = this.recherche().trim().toLocaleLowerCase();
     const categorie = this.categorieSelectionnee();
     const disponibilite = this.disponibiliteSelectionnee();
 
     return this.catalogueService.equipements().map(equipement => ({
+      // L'état est recalculé depuis les réservations actives, pas depuis la copie initiale.
       ...equipement,
       reserve: this.reservationService.estReserve(equipement.id)
     })).filter(equipement => {
+      // Un équipement doit satisfaire simultanément la recherche et les deux filtres.
       const correspondAuNom = equipement.nom.toLocaleLowerCase().includes(recherche);
       const correspondALaCategorie = categorie === 'toutes' || equipement.categorie === categorie;
       const correspondALaDisponibilite = disponibilite === 'tous'
@@ -46,14 +49,17 @@ export class GestionPage {
   }
 
   protected setRecherche(event: Event): void {
+    // Le cast donne accès à la valeur du champ texte qui a déclenché l'événement.
     this.recherche.set((event.target as HTMLInputElement).value);
   }
 
   protected setCategorie(event: Event): void {
+    // La valeur du select est reconvertie vers l'union de catégories attendue.
     this.categorieSelectionnee.set((event.target as HTMLSelectElement).value as Categorie | 'toutes');
   }
 
   protected setDisponibilite(event: Event): void {
+    // Le filtre est mis à jour sans modifier les équipements sauvegardés.
     this.disponibiliteSelectionnee.set((event.target as HTMLSelectElement).value as FiltreDisponibilite);
   }
 

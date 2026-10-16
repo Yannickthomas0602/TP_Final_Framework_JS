@@ -29,12 +29,14 @@ export class ReservationService {
     }
 
     const donnees = localStorage.getItem(this.cleStockage);
+    // Une clé absente signifie qu'aucune réservation n'a encore été créée.
     if (!donnees) {
       return RESERVATIONS_INITIALES.map(reservation => ({ ...reservation }));
     }
 
     try {
       const reservations = JSON.parse(donnees) as Reservation[];
+      // Un tableau vide est valide : il représente simplement zéro réservation.
       return Array.isArray(reservations) ? reservations : [];
     } catch {
       // Une valeur corrompue ne doit pas empêcher l'application de démarrer.
@@ -59,17 +61,20 @@ export class ReservationService {
    * Le retour false signale que l'équipement était déjà réservé.
    */
   reserver(equipementId: number, etudiantId: number): boolean {
+    // La disponibilité est vérifiée avant toute écriture pour éviter les doublons.
     if (this.estReserve(equipementId)) {
       return false;
     }
 
     const reservation: Reservation = {
+      // L'identifiant permet ensuite d'annuler une réservation précise.
       id: crypto.randomUUID(),
       equipementId,
       etudiantId
     };
 
     this.reservations.update(reservations => [...reservations, reservation]);
+    // Le signal met les pages à jour et la sauvegarde conserve l'état après refresh.
     this.sauvegarderReservations();
     return true;
   }
@@ -80,6 +85,7 @@ export class ReservationService {
    */
   annuler(reservationId: string, etudiantId: number): boolean {
     const reservation = this.reservations().find(item => item.id === reservationId);
+    // Un étudiant ne peut supprimer que sa propre réservation.
     if (!reservation || reservation.etudiantId !== etudiantId) {
       return false;
     }

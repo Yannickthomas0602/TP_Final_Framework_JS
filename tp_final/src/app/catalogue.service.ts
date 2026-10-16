@@ -23,19 +23,24 @@ export class CatalogueService {
 
   /** Charge le catalogue sauvegardé ou crée une copie des données initiales. */
   private chargerEquipements(): Equipement[] {
+    // Le serveur ne peut pas accéder à localStorage : il utilise une copie isolée
+    // des données initiales pour éviter toute modification du tableau source.
     if (!isPlatformBrowser(this.platformId)) {
       return EQUIPEMENTS_INITIAUX.map(equipement => ({ ...equipement }));
     }
 
     const donnees = localStorage.getItem(this.cleStockage);
+    // L'absence de clé correspond au premier lancement de l'application.
     if (!donnees) {
       return EQUIPEMENTS_INITIAUX.map(equipement => ({ ...equipement }));
     }
 
     try {
       const equipements = JSON.parse(donnees) as Equipement[];
+      // On ne réutilise le contenu sauvegardé que s'il possède bien une forme de tableau.
       return Array.isArray(equipements) ? equipements : [];
     } catch {
+      // Des données JSON invalides ne doivent pas bloquer l'accès au catalogue.
       return EQUIPEMENTS_INITIAUX.map(equipement => ({ ...equipement }));
     }
   }
@@ -59,6 +64,7 @@ export class CatalogueService {
 
   /** Ajoute un équipement avec un identifiant supérieur aux identifiants existants. */
   ajouter(donnees: DonneesEquipement): Equipement {
+    // Le nouvel identifiant reste unique même si des équipements ont été supprimés.
     const prochainId = Math.max(0, ...this.equipements().map(equipement => equipement.id)) + 1;
     const equipement: Equipement = { ...donnees, id: prochainId, reserve: false };
     this.equipements.update(equipements => [...equipements, equipement]);
@@ -68,10 +74,12 @@ export class CatalogueService {
 
   /** Modifie les caractéristiques d'un équipement existant. */
   modifier(id: number, donnees: DonneesEquipement): boolean {
+    // Une URL ou un formulaire peut contenir un identifiant inexistant.
     if (!this.trouver(id)) {
       return false;
     }
 
+    // La réservation n'est jamais modifiée par le formulaire responsable.
     this.equipements.update(equipements => equipements.map(equipement => (
       equipement.id === id
         ? { ...donnees, id, reserve: this.estReserve(id) }
@@ -86,6 +94,7 @@ export class CatalogueService {
    * Le responsable reçoit false lorsqu'une réservation bloque la suppression.
    */
   supprimer(id: number): boolean {
+    // Les deux conditions protègent l'opération même si le bouton HTML est contourné.
     if (!this.trouver(id) || this.estReserve(id)) {
       return false;
     }
