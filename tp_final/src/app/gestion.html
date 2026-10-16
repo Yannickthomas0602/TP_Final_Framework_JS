@@ -43,7 +43,13 @@
     <li>
       <h2>{{ equipement.nom }}</h2>
       <p>{{ equipement.categorie }} — {{ equipement.localisation }}</p>
-      <p>État : {{ equipement.reserve ? 'Réservé' : 'Disponible' }}</p>
+      <p>État :
+        @if (equipement.reserve) {
+          <span class="status-badge status-badge--reserved">Réservé</span>
+        } @else {
+          <span class="status-badge status-badge--available">Disponible</span>
+        }
+      </p>
       <div class="management-actions">
         <a [routerLink]="['/gestion', equipement.id, 'modifier']">Modifier</a>
         <button

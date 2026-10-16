@@ -12,7 +12,13 @@
     <dd>{{ equipement.localisation }}</dd>
 
     <dt>État</dt>
-    <dd>{{ estReserve() ? 'Réservé' : 'Disponible' }}</dd>
+    <dd>
+      @if (estReserve()) {
+        <span class="status-badge status-badge--reserved">Réservé</span>
+      } @else {
+        <span class="status-badge status-badge--available">Disponible</span>
+      }
+    </dd>
   </dl>
 
   @if (peutReserver()) {

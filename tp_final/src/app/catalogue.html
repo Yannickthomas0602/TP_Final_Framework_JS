@@ -32,7 +32,13 @@
   @for (equipement of equipementsFiltres; track equipement.id) {
     <li>
       <h2>{{ equipement.nom }}</h2>
-      <p>État : {{ equipement.reserve ? 'Réservé' : 'Disponible' }}</p>
+      <p>État :
+        @if (equipement.reserve) {
+          <span class="status-badge status-badge--reserved">Réservé</span>
+        } @else {
+          <span class="status-badge status-badge--available">Disponible</span>
+        }
+      </p>
       <a [routerLink]="['/materiels', equipement.id]">Voir le matériel</a>
     </li>
   } @empty {

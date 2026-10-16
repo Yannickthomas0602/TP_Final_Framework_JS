@@ -316,6 +316,29 @@ dd {
 	margin: .15rem 0 0;
 }
 
+.status-badge {
+	border: 2px solid;
+	border-radius: 999px;
+	display: inline-block;
+	font-size: .78rem;
+	font-weight: 700;
+	line-height: 1.2;
+	padding: .22rem .6rem;
+	vertical-align: middle;
+}
+
+.status-badge--reserved {
+	background: #f8d9d4;
+	border-color: var(--coral-dark);
+	color: var(--coral-dark);
+}
+
+.status-badge--available {
+	background: #d8eedf;
+	border-color: var(--green);
+	color: var(--green);
+}
+
 [role="alert"],
 [role="status"] {
 	border-left: 5px solid var(--coral);
